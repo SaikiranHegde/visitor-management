@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { defaultVisitorInfo, Visitor, VisitorState } from "./app.model";
-import { delay, pluck, tap } from 'rxjs/operators';
-import { append } from 'ramda';
+import { delay, pluck, skip, tap,  } from 'rxjs/operators';
+import { append, set, lensIndex, isNil, not } from 'ramda';
 
 const defaultState: VisitorState = {
   visitorList: [{...defaultVisitorInfo}]
@@ -11,15 +11,18 @@ const defaultState: VisitorState = {
 @Injectable()
 export class AppService {
   private state$ = new BehaviorSubject<VisitorState>(defaultState);
-  private listLoading$ = new BehaviorSubject(true);
-  private actionLoading$ = new BehaviorSubject(true);
+  private listLoading$ = new BehaviorSubject(false);
+  private actionLoading$ = new BehaviorSubject(false);
   private closeModal$ = new BehaviorSubject(true);
-  private loadListing$ = new Subject<boolean>();
+  private loadListing$ = new BehaviorSubject<boolean>(true);
   private addVisitorStorage$ = new Subject<Visitor>();
 
   constructor() {
     this.loadListing$
-    .pipe(tap(() => this.listLoading$.next(true)))
+    .pipe(
+      skip(1),
+      tap(() => this.listLoading$.next(true))
+      )
     .subscribe(() => {
       this.state$.next({
         visitorList: JSON.parse(sessionStorage.getItem('visitorList') as string)
@@ -30,7 +33,7 @@ export class AppService {
     this.addVisitorStorage$.pipe(
       tap((visitor: Visitor) => {
         const oldVisitorList = this.state$.value.visitorList;
-        sessionStorage.setItem('visitorList', JSON.stringify(append({
+        sessionStorage.setItem('visitorList', JSON.stringify(not(isNil(visitor.id)) ? set(lensIndex(visitor.id as number), {...visitor, inOut: true}, oldVisitorList)  : append({
           ...visitor,
           id: oldVisitorList.length,
           inOut: true
@@ -43,7 +46,7 @@ export class AppService {
     )
     .subscribe(() => {
       this.closeModal$.next(true);
-      this.listLoading$.next(true);
+      this.loadListing$.next(true);
     });
   }
 

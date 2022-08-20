@@ -3,10 +3,18 @@
     Visitor Management
   </section>
   <ng-container *ngIf="{
-    listLoading: listLoading$ | async
+    listLoading: listLoading$ | async,
+    visitorList: visitorList$ | async,
+    closeModal : closeModal$ | async
   } as data">
     <section class="visitor-list">
-      <app-loader *ngIf="data.listLoading"></app-loader>
+      <app-loader *ngIf="data.listLoading; else infoBlock"></app-loader>
+      <ng-template #infoBlock>
+        <section class="visitor-info">
+          <app-visitor-table [visitorList]="data?.visitorList" (addNewVisitor)="addNewVisitor()" (editExistingVisitor)="editExistingVisitor($event)"></app-visitor-table>
+          <app-create-visitor *ngIf="!data.closeModal" [visitor]="editVisitorInfo"></app-create-visitor>
+        </section>
+      </ng-template>
     </section>
   </ng-container>
 </section>

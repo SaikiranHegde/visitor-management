@@ -1,0 +1,30 @@
+.visitor-table {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 60px 1fr;
+  .add-visitor-button {
+    height: 48px;
+    width: max-content;
+  }
+  .info-table {
+    height: 100%;
+    .search-bar {
+      width: 40%;
+    }
+  }
+  .data-table {
+    width: 100%;
+  }
+  .action {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    column-gap: 10px;
+  }
+}
+
+:host ::ng-deep {
+  .in-out {
+    background: #63aa63;
+  }
+}

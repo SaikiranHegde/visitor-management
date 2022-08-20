@@ -1,0 +1,40 @@
+<section class="create-form-container">
+  <section class="create-form">
+    <section class="header">{{nullCheck(visitor) ? 'Edit' : 'Create'}} Visitor</section>
+    <form *ngIf="!!createVisitorForm" class="form-body" [formGroup]="createVisitorForm">
+      <app-loader *ngIf="actionLoading$ | async"></app-loader>
+      <mat-form-field appearance="fill">
+        <mat-label>Name<span class="mandatory-icon">*</span></mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email<span class="mandatory-icon">*</span></mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Cellphone<span class="mandatory-icon">*</span></mat-label>
+        <input matInput formControlName="cellPhone">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Address Line 1<span class="mandatory-icon">*</span></mat-label>
+        <textarea matInput formControlName="addressLine1"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Address Line 2<span class="mandatory-icon">*</span></mat-label>
+        <textarea matInput formControlName="addressLine2"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Address Line 3<span class="mandatory-icon">*</span></mat-label>
+        <textarea matInput formControlName="addressLine3"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>City<span class="mandatory-icon">*</span></mat-label>
+        <input matInput formControlName="city">
+      </mat-form-field>
+    </form>
+    <section class="footer">
+      <button mat-flat-button (click)="closeModal()">Cancel</button>
+      <button mat-flat-button color="primary" [disabled]="!createVisitorForm.valid" (click)="visitorAction()">{{nullCheck(visitor) ? 'Update' : 'Create'}}</button>
+    </section>
+  </section>
+</section>
