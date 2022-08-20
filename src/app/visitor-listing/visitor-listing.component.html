@@ -1,1 +1,12 @@
-<p>visitor-listing works!</p>
+<section class="listing-container">
+  <section class="header-container">
+    Visitor Management
+  </section>
+  <ng-container *ngIf="{
+    listLoading: listLoading$ | async
+  } as data">
+    <section class="visitor-list">
+      <app-loader *ngIf="data.listLoading"></app-loader>
+    </section>
+  </ng-container>
+</section>

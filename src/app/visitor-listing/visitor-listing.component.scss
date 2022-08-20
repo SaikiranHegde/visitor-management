@@ -1,0 +1,19 @@
+.listing-container {
+  background: #fafafa;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 64px 1fr;
+  .header-container {
+    background: #673ab7;
+    color: #fffdfd;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .visitor-list {
+    padding: 12px 24px;
+  }
+}
