@@ -9,7 +9,6 @@ export class VisitorListingComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
-
 }
